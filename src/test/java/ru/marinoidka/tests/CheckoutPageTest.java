@@ -1,21 +1,20 @@
 package ru.marinoidka.tests;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import ru.marinoidka.elements.FooterPageElements;
 import ru.marinoidka.elements.SideMenuElements;
 import ru.marinoidka.pages.BaseAuthorisedPage;
 import ru.marinoidka.pages.CheckoutPage;
 import ru.marinoidka.pages.LoginPage;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static ru.marinoidka.utils.TabUtils.switchToTheNextTab;
-
-
-class CheckoutPageTest extends BaseTest implements FooterPageElements, SideMenuElements {
+@Epic("Основные тесты")
+@Feature("Тесты на страницу Checkout")
+class CheckoutPageTest extends BaseTest {
 
     @BeforeEach
     void goCheckout() {
@@ -23,51 +22,12 @@ class CheckoutPageTest extends BaseTest implements FooterPageElements, SideMenuE
                 .enterLogin(username)
                 .enterPassword(password)
                 .clickLoginButton()
-                .getProduct()
+                .getProduct(productID)
                 .clickCart()
                 .clickCheckout();
     }
 
 
-    @Test
-    void shouldFindSideMenuButton() {
-        new BaseAuthorisedPage(driver)
-                .checkSideMenuButton();
-    }
-
-    @Test
-    void shouldClickSideMenuAllItems() {
-        new BaseAuthorisedPage(driver)
-                .clickSideMenuAllItems();
-    }
-
-    @Test
-    void shouldClickSideMenuAbout() {
-        new BaseAuthorisedPage(driver)
-                .clickSideMenuAbout();
-    }
-
-    @Test
-    void shouldClickSideMenuLogout() {
-        new BaseAuthorisedPage(driver)
-                .clickSideMenuLogout();
-        new LoginPage(driver)
-                .enterLogin(username)
-                .enterPassword(password)
-                .clickLoginButton();
-    }
-
-    @Test
-    void shouldClickSideMenuReset() {
-        new BaseAuthorisedPage(driver)
-                .clickSideMenuReset();
-    }
-
-    @Test
-    void shouldClickSideMenuCrossButton() {
-        new BaseAuthorisedPage(driver)
-                .clickSideMenuCrossButton();
-    }
 
     @Test
     void shouldFindHeaderLabelTest() {
@@ -101,7 +61,7 @@ class CheckoutPageTest extends BaseTest implements FooterPageElements, SideMenuE
 
     @Test
     void shouldFindHeaderSecondaryContainerTest() {
-        new BaseAuthorisedPage(driver)
+        new CheckoutPage(driver)
                 .checkSecondaryContainer();
     }
 
@@ -114,19 +74,19 @@ class CheckoutPageTest extends BaseTest implements FooterPageElements, SideMenuE
     @Test
     void shouldFindFirstnameTest() {
         new CheckoutPage(driver)
-                .setFirstname();
+                .setFirstname(firstname);
     }
 
     @Test
     void shouldFindLastnameTest() {
         new CheckoutPage(driver)
-                .setLastname();
+                .setLastname(lastname);
     }
 
     @Test
     void shouldFindZipCodeTest() {
         new CheckoutPage(driver)
-                .setPostCode();
+                .setPostCode(postcode);
     }
 
     @Test
@@ -158,44 +118,18 @@ class CheckoutPageTest extends BaseTest implements FooterPageElements, SideMenuE
     @Test
     void shouldFindContinueBtnTest() {
         new CheckoutPage(driver)
-                .checkContinueCheckoutButton();
-    }
-
-    @Test
-    void shouldFindTwitterLinkTest() {
-        new BaseAuthorisedPage(driver)
-                .goToTwitter();
-    }
-
-    @Test
-    void shouldFindFacebookLinkTest() {
-        new BaseAuthorisedPage(driver)
-                .goToFacebook();
-    }
-
-    @Test
-    void shouldFindLinkedinLinkTest() {
-        new BaseAuthorisedPage(driver)
-                .goToLinkedIn();
-    }
-
-    @Test
-    void shouldFindCopyTest() {
-        new BaseAuthorisedPage(driver)
-                .checkFooterCopy();
-    }
-
-    @Test
-    void shouldFindRobotTest() {
-        new BaseAuthorisedPage(driver)
-                .checkFooterRobot();
+                .checkContinueCheckoutButton(firstname, lastname, postcode);
     }
 
 
+    @Step("Разлогин")
     @AfterEach
-    void tearDown() {
+    public void logOut() {
         new BaseAuthorisedPage(driver)
-                .tearDown();
+                .logOut();
     }
+
+
+
 
 }
